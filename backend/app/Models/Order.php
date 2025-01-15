@@ -50,6 +50,15 @@ class Order extends BaseModel
 
     protected function getFillableFields(): array
     {
-        return [];
+        return [
+            'basket_id',
+            'transaction_id',
+            'status',
+            'payment_provider'
+        ];
     }
+
+    const STATUS_PENDING = 'pending';
+    const STATUS_COMPLETED = 'completed';
+    const STATUS_FAILED = 'failed';
 }

@@ -276,4 +276,10 @@ $router->prefix('/public')->group(
     }
 );
 
+Route::prefix('payment')->group(function () {
+    Route::post('create-session', [PaymentController::class, 'createSession']);
+    Route::post('callback', [PaymentController::class, 'handleCallback']);
+    Route::get('verify/{orderId}', [PaymentController::class, 'verifyPayment']);
+});
+
 include_once __DIR__ . '/mail.php';
