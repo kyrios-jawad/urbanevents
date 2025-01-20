@@ -63,6 +63,7 @@ use HiEvents\Http\Actions\Orders\GetOrdersAction;
 use HiEvents\Http\Actions\Orders\MessageOrderAction;
 use HiEvents\Http\Actions\Orders\Payment\RefundOrderAction;
 use HiEvents\Http\Actions\Orders\Payment\Stripe\CreatePaymentIntentActionPublic;
+use HiEvents\Http\Actions\Orders\Payment\GoFastPay\CreatePaymentIntent;
 use HiEvents\Http\Actions\Orders\Payment\Stripe\GetPaymentIntentActionPublic;
 use HiEvents\Http\Actions\Orders\ResendOrderConfirmationAction;
 use HiEvents\Http\Actions\Organizers\CreateOrganizerAction;
@@ -261,6 +262,11 @@ $router->prefix('/public')->group(
         // Stripe payment gateway
         $router->post('/events/{event_id}/order/{order_short_id}/stripe/payment_intent', CreatePaymentIntentActionPublic::class);
         $router->get('/events/{event_id}/order/{order_short_id}/stripe/payment_intent', GetPaymentIntentActionPublic::class);
+
+        // GO Fast Pay payment gateway
+        $router->post('/events/{event_id}/order/{order_short_id}/gofastpay/payment_intent', CreatePaymentIntent::class);
+        // $router->get('/events/{event_id}/order/{order_short_id}/gofastpay/payment_intent', GetPaymentIntentActionPublic::class);
+
 
         // Questions
         $router->get('/events/{event_id}/questions', GetQuestionsPublicAction::class);
