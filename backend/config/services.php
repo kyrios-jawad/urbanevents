@@ -31,6 +31,11 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'gofastpay' => [
+        'secured_key' => env('GOFASTPAY_SECURED_KEY'),
+        'merchant_id' => env('GOFASTPAY_MERCHANT_ID'),
+    ],
+
     'stripe' => [
         'secret_key' => env('STRIPE_SECRET_KEY'),
         'public_key' => env('STRIPE_PUBLIC_KEY'),

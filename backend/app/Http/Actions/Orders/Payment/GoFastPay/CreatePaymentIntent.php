@@ -27,6 +27,7 @@ class CreatePaymentIntent extends BaseAction
 
         return $this->jsonResponse([
             'client_secret' =>  $eventId,
+            '$createIntent'=>$createIntent,
             'account_id' => $orderShortId,
         ]);
     }
