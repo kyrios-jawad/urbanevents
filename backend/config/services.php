@@ -36,4 +36,9 @@ return [
         'public_key' => env('STRIPE_PUBLIC_KEY'),
         'webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
     ],
+
+    'gofastpay' => [
+        'secured_key' => env('GOFASTPAY_SECURED_KEY'),
+        'merchant_id' => env('GOFASTPAY_MERCHANT_ID'),
+    ],
 ];
