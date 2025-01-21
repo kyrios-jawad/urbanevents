@@ -262,6 +262,10 @@ $router->prefix('/public')->group(
         $router->post('/events/{event_id}/order/{order_short_id}/stripe/payment_intent', CreatePaymentIntentActionPublic::class);
         $router->get('/events/{event_id}/order/{order_short_id}/stripe/payment_intent', GetPaymentIntentActionPublic::class);
 
+        // GoFastPay Stripe payment gateway
+        $router->post('/events/{event_id}/order/{order_short_id}/gofastpay/payment_intent', CreatePaymentIntentActionPublic::class);
+        $router->get('/events/{event_id}/order/{order_short_id}/gofastpay/payment_intent', GetPaymentIntentActionPublic::class);
+
         // Questions
         $router->get('/events/{event_id}/questions', GetQuestionsPublicAction::class);
 
