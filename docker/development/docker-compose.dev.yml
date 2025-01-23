@@ -52,6 +52,7 @@ services:
 
         command: yarn dev:ssr
         environment:
+            CHOKIDAR_USEPOLLING: "true"
             VITE_API_URL_CLIENT: '${API_URL_CLIENT}'
             VITE_API_URL_SERVER: '${API_URL_SERVER}'
             VITE_STRIPE_PUBLISHABLE_KEY: '${STRIPE_PUBLIC_KEY}'
