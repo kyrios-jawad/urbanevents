@@ -20,14 +20,6 @@ class CreatePaymentIntent extends BaseAction
     public function __invoke(int $eventId, string $orderShortId): JsonResponse
     {
          $intent = $this->createPaymentIntentHandler->handle($orderShortId);
-        // try {
-        // } catch (CreatePaymentIntentFailedException $e) {
-        //     return $this->errorResponse($e->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
-        // }
-
-        return $this->jsonResponse([
-            'client_secret' => $intent,
-            'account_id' => "orderShortId",
-        ]);
+         return $this->jsonResponse(['ACCESS_TOKEN' => $intent['ACCESS_TOKEN']]);
     }
 }
