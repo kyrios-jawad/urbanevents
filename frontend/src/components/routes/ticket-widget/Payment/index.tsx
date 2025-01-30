@@ -18,7 +18,7 @@ const Payment = () => {
         data: stripeData,
         isFetched: isStripeFetched,
         error: stripePaymentIntentError
-    } = useCreateStripePaymentIntent(eventId, orderShortId);
+    } = useCreatePaymentIntent(eventId, orderShortId);
     const [stripePromise, setStripePromise] = useState<Promise<Stripe | null>>();
     const {data: event} = useGetEventPublic(eventId);
 

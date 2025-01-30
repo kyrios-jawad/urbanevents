@@ -1,4 +1,5 @@
-import {publicApi} from "./public-client.ts";
+import { publicApi } from "./public-client.ts";
+import axios from "axios";
 import {
     GenericDataResponse,
     GenericPaginatedResponse,
@@ -7,8 +8,9 @@ import {
     QueryFilters,
     StripePaymentIntent
 } from "../types.ts";
-import {api} from "./client.ts";
-import {queryParamsHelper} from "../utilites/queryParamsHelper.ts";
+import { api } from "./client.ts";
+import { queryParamsHelper } from "../utilites/queryParamsHelper.ts";
+import { getConfig } from "../utilites/config.ts";
 
 export interface OrderDetails {
     first_name: string,
@@ -103,12 +105,11 @@ export const orderClientPublic = {
     },
 
     createStripePaymentIntent: async (eventId: number, orderShortId: string, sessionIdentifier: string) => {
-        const response = await publicApi.post<{
-            client_secret: string,
-            account_id?: string,
-        }>(`events/${eventId}/order/${orderShortId}/gofastpay/payment_intent?session_identifier=${sessionIdentifier}`);
+        const response = await publicApi.post<{ ACCESS_TOKEN: string }>(`events/${eventId}/order/${orderShortId}/gofastpay/payment_intent?session_identifier=${sessionIdentifier}`);
         return response.data;
     },
+
+    InitiatePayment: async (data:any) => await axios.post('https://ipguat.apps.net.pk/Ecommerce/api/Transaction/PostTransaction',data),
 
     finaliseOrder: async (
         eventId: number,

@@ -1,23 +1,24 @@
-import {useMutation} from "@tanstack/react-query";
-import {FinaliseOrderPayload, orderClientPublic} from "../../../../api/order.client.ts";
-import {Link, useNavigate, useParams} from "react-router-dom";
-import {Button, Skeleton, TextInput} from "@mantine/core";
-import {useForm} from "@mantine/form";
-import {notifications} from "@mantine/notifications";
-import {useGetOrderPublic} from "../../../../queries/useGetOrderPublic.ts";
-import {useGetEventPublic} from "../../../../queries/useGetEventPublic.ts";
-import {useGetEventQuestionsPublic} from "../../../../queries/useGetEventQuestionsPublic.ts";
-import {CheckoutOrderQuestions, CheckoutTicketQuestions} from "../../../common/CheckoutQuestion";
-import {Event, Order, Question} from "../../../../types.ts";
-import {useEffect} from "react";
-import {t} from "@lingui/macro";
-import {InputGroup} from "../../../common/InputGroup";
-import {Card} from "../../../common/Card";
-import {IconChevronLeft, IconCopy} from "@tabler/icons-react";
-import {CheckoutFooter} from "../../../layouts/Checkout/CheckoutFooter";
-import {CheckoutContent} from "../../../layouts/Checkout/CheckoutContent";
-import {HomepageInfoMessage} from "../../../common/HomepageInfoMessage";
-import {eventCheckoutPath, eventHomepagePath} from "../../../../utilites/urlHelper.ts";
+import { t } from "@lingui/macro";
+import { Button, Skeleton, TextInput } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
+import { IconChevronLeft, IconCopy } from "@tabler/icons-react";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { FinaliseOrderPayload, orderClientPublic } from "../../../../api/order.client.ts";
+import { useCreatePaymentIntent } from "../../../../queries/useCreateStripePaymentIntent.ts";
+import { useGetEventPublic } from "../../../../queries/useGetEventPublic.ts";
+import { useGetEventQuestionsPublic } from "../../../../queries/useGetEventQuestionsPublic.ts";
+import { useGetOrderPublic } from "../../../../queries/useGetOrderPublic.ts";
+import { Event, Order, Question } from "../../../../types.ts";
+import { eventCheckoutPath, eventHomepagePath } from "../../../../utilites/urlHelper.ts";
+import { Card } from "../../../common/Card";
+import { CheckoutOrderQuestions, CheckoutTicketQuestions } from "../../../common/CheckoutQuestion";
+import { HomepageInfoMessage } from "../../../common/HomepageInfoMessage";
+import { InputGroup } from "../../../common/InputGroup";
+import { CheckoutContent } from "../../../layouts/Checkout/CheckoutContent";
+import { CheckoutFooter } from "../../../layouts/Checkout/CheckoutFooter";
 
 const LoadingSkeleton = () =>
     (
@@ -30,6 +31,11 @@ const LoadingSkeleton = () =>
 
 export const CollectInformation = () => {
     const {eventId, eventSlug, orderShortId} = useParams();
+        const {
+            data: access_token,
+            isFetched: isAccessTokenFetch,
+            error: PaymentIntentError
+        } = useCreatePaymentIntent(eventId, orderShortId);
     const navigate = useNavigate();
     const {
         isFetched: isOrderFetched,
@@ -88,6 +94,20 @@ export const CollectInformation = () => {
             attendees: updatedAttendees,
         });
     }
+
+    if (PaymentIntentError && event) {
+        return (
+            <CheckoutContent>
+                <HomepageInfoMessage
+                    /* @ts-ignore */
+                    message={PaymentIntentError.response?.data?.message || t`Sorry, something has gone wrong. Please restart the checkout process.`}
+                    link={eventHomepagePath(event)}
+                    linkText={t`Return to event page`}
+                />
+            </CheckoutContent>
+        );
+    }
+
 
     const mutation = useMutation({
         mutationFn: (orderData: FinaliseOrderPayload) => orderClientPublic.finaliseOrder(Number(eventId), String(orderShortId), orderData),
@@ -167,7 +187,61 @@ export const CollectInformation = () => {
     }
 
     const handleSubmit = (values: any) => {
-        mutation.mutate(values);
+        console.log("values", values)
+        
+        orderClientPublic.InitiatePayment({
+            CURRENCY_CODE: "PKR",
+            MERCHANT_ID: "14833",
+            MERCHANT_NAME: "Payfast Merchant",
+            TOKEN: access_token,
+            BASKET_ID: "BASKET123",
+            TXNAMT: "1500",
+            ORDER_DATE: new Date().toISOString(), // Current timestamp in ISO format
+            SUCCESS_URL: "http://localhost/redirection/success.php",
+            FAILURE_URL: "http://localhost/redirection/failure.php",
+            CHECKOUT_URL: "http://localhost/redirection/checkout.php",
+            CUSTOMER_EMAIL_ADDRESS: "someone234@gmail.com",
+            CUSTOMER_MOBILE_NO: "03000000090",
+            SIGNATURE: "SOME-RANDOM-STRING",
+            VERSION: "MERCHANT-CART-0.1",
+            TXNDESC: "Item Purchased from Cart",
+            PROCCODE: "00",
+            TRAN_TYPE: "ECOMM_PURCHASE",
+            STORE_ID: "", // Optional field
+            RECURRING_TXN: "TRUE", // Optional field
+            MERCHANT_USERAGENT: "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0",
+            ITEMS: [
+              { SKU: "SAMPLE-SKU-01", NAME: "An Awesome Dress", PRICE: "150", QTY: "2" },
+              { SKU: "SAMPLE-SKU-02", NAME: "Ice Cream", PRICE: "45", QTY: "5" }
+            ]
+          })
+          console.log({
+            CURRENCY_CODE: "PKR",
+            MERCHANT_ID: "14833",
+            MERCHANT_NAME: "Payfast Merchant",
+            TOKEN: access_token,
+            BASKET_ID: "BASKET123",
+            TXNAMT: "1500",
+            ORDER_DATE: new Date().toISOString(), // Current timestamp in ISO format
+            SUCCESS_URL: "http://localhost/redirection/success.php",
+            FAILURE_URL: "http://localhost/redirection/failure.php",
+            CHECKOUT_URL: "http://localhost/redirection/checkout.php",
+            CUSTOMER_EMAIL_ADDRESS: "someone234@gmail.com",
+            CUSTOMER_MOBILE_NO: "03000000090",
+            SIGNATURE: "SOME-RANDOM-STRING",
+            VERSION: "MERCHANT-CART-0.1",
+            TXNDESC: "Item Purchased from Cart",
+            PROCCODE: "00",
+            TRAN_TYPE: "ECOMM_PURCHASE",
+            STORE_ID: "", // Optional field
+            RECURRING_TXN: "TRUE", // Optional field
+            MERCHANT_USERAGENT: "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0",
+            ITEMS: [
+              { SKU: "SAMPLE-SKU-01", NAME: "An Awesome Dress", PRICE: "150", QTY: "2" },
+              { SKU: "SAMPLE-SKU-02", NAME: "Ice Cream", PRICE: "45", QTY: "5" }
+            ]
+          })
+        // mutation.mutate(values);
     };
 
     useEffect(() => {
@@ -243,7 +317,7 @@ export const CollectInformation = () => {
     }
 
     return (
-        <form onSubmit={form.onSubmit(handleSubmit)}>
+        <form id='PayFast_payment_form' method='post' action="https://ipguat.apps.net.pk/Ecommerce/api/Transaction/PostTransaction">
             <CheckoutContent>
                 <Button
                     component={Link}

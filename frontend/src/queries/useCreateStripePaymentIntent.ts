@@ -5,17 +5,17 @@ import {getSessionIdentifier} from "../utilites/sessionIdentifier.ts";
 
 export const GET_INITIATE_STRIPE_SESSION_PUBLIC_QUERY_KEY = 'getStripSessionPublic';
 
-export const useCreateStripePaymentIntent = (eventId: IdParam, orderShortId: IdParam) => {
+export const useCreatePaymentIntent = (eventId: IdParam, orderShortId: IdParam) => {
     return useQuery({
         queryKey: [GET_INITIATE_STRIPE_SESSION_PUBLIC_QUERY_KEY],
 
         queryFn: async () => {
-            const {client_secret, account_id} = await orderClientPublic.createStripePaymentIntent(
+            const {ACCESS_TOKEN} = await orderClientPublic.createStripePaymentIntent(
                 Number(eventId),
                 String(orderShortId),
                 getSessionIdentifier(),
             );
-            return {client_secret, account_id};
+            return {ACCESS_TOKEN};
         },
 
         retry: false,
