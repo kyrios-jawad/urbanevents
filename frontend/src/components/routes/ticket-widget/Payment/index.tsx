@@ -21,7 +21,7 @@ const Payment = () => {
     } = useCreatePaymentIntent(eventId, orderShortId);
     const [stripePromise, setStripePromise] = useState<Promise<Stripe | null>>();
     const {data: event} = useGetEventPublic(eventId);
-
+console.log("data test")
     useEffect(() => {
         if (!stripeData?.client_secret) {
             return;
@@ -54,6 +54,7 @@ const Payment = () => {
 
     return (
         <>
+        hello
             {(!stripePromise) && <LoadingMask/>}
 
             {(isStripeFetched && stripeData?.client_secret && stripePromise) && (

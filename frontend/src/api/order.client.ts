@@ -108,9 +108,7 @@ export const orderClientPublic = {
         const response = await publicApi.post<{ ACCESS_TOKEN: string }>(`events/${eventId}/order/${orderShortId}/gofastpay/payment_intent?session_identifier=${sessionIdentifier}`);
         return response.data;
     },
-
-    InitiatePayment: async (data:any) => await axios.post('https://ipguat.apps.net.pk/Ecommerce/api/Transaction/PostTransaction',data),
-
+    
     finaliseOrder: async (
         eventId: number,
         orderShortId: string,

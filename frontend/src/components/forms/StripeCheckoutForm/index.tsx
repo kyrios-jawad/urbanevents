@@ -22,7 +22,7 @@ export default function StripeCheckoutForm() {
     const [isLoading, setIsLoading] = useState(false);
     const {data: order, isFetched: isOrderFetched} = useGetOrderPublic(eventId, orderShortId);
     const {data: event, isFetched: isEventFetched} = useGetEventPublic(eventId);
-
+    console.log("yea this is the issue")
     useEffect(() => {
         if (!stripe) {
             return;
@@ -117,6 +117,7 @@ export default function StripeCheckoutForm() {
 
     return (
         <form id="payment-form" onSubmit={handleSubmit}>
+            test
             <CheckoutContent>
                 <h2>
                     {t`Payment`}

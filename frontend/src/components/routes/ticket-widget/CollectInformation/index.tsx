@@ -187,60 +187,60 @@ export const CollectInformation = () => {
     }
 
     const handleSubmit = (values: any) => {
-        console.log("values", values)
-        
-        orderClientPublic.InitiatePayment({
-            CURRENCY_CODE: "PKR",
-            MERCHANT_ID: "14833",
-            MERCHANT_NAME: "Payfast Merchant",
-            TOKEN: access_token,
-            BASKET_ID: "BASKET123",
-            TXNAMT: "1500",
-            ORDER_DATE: new Date().toISOString(), // Current timestamp in ISO format
-            SUCCESS_URL: "http://localhost/redirection/success.php",
-            FAILURE_URL: "http://localhost/redirection/failure.php",
-            CHECKOUT_URL: "http://localhost/redirection/checkout.php",
-            CUSTOMER_EMAIL_ADDRESS: "someone234@gmail.com",
-            CUSTOMER_MOBILE_NO: "03000000090",
-            SIGNATURE: "SOME-RANDOM-STRING",
-            VERSION: "MERCHANT-CART-0.1",
-            TXNDESC: "Item Purchased from Cart",
-            PROCCODE: "00",
-            TRAN_TYPE: "ECOMM_PURCHASE",
-            STORE_ID: "", // Optional field
-            RECURRING_TXN: "TRUE", // Optional field
-            MERCHANT_USERAGENT: "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0",
-            ITEMS: [
-              { SKU: "SAMPLE-SKU-01", NAME: "An Awesome Dress", PRICE: "150", QTY: "2" },
-              { SKU: "SAMPLE-SKU-02", NAME: "Ice Cream", PRICE: "45", QTY: "5" }
-            ]
-          })
-          console.log({
-            CURRENCY_CODE: "PKR",
-            MERCHANT_ID: "14833",
-            MERCHANT_NAME: "Payfast Merchant",
-            TOKEN: access_token,
-            BASKET_ID: "BASKET123",
-            TXNAMT: "1500",
-            ORDER_DATE: new Date().toISOString(), // Current timestamp in ISO format
-            SUCCESS_URL: "http://localhost/redirection/success.php",
-            FAILURE_URL: "http://localhost/redirection/failure.php",
-            CHECKOUT_URL: "http://localhost/redirection/checkout.php",
-            CUSTOMER_EMAIL_ADDRESS: "someone234@gmail.com",
-            CUSTOMER_MOBILE_NO: "03000000090",
-            SIGNATURE: "SOME-RANDOM-STRING",
-            VERSION: "MERCHANT-CART-0.1",
-            TXNDESC: "Item Purchased from Cart",
-            PROCCODE: "00",
-            TRAN_TYPE: "ECOMM_PURCHASE",
-            STORE_ID: "", // Optional field
-            RECURRING_TXN: "TRUE", // Optional field
-            MERCHANT_USERAGENT: "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0",
-            ITEMS: [
-              { SKU: "SAMPLE-SKU-01", NAME: "An Awesome Dress", PRICE: "150", QTY: "2" },
-              { SKU: "SAMPLE-SKU-02", NAME: "Ice Cream", PRICE: "45", QTY: "5" }
-            ]
-          })
+        console.log(values)
+        mutation.mutate(values);
+        // orderClientPublic.InitiatePayment({
+        //     CURRENCY_CODE: "PKR",
+        //     MERCHANT_ID: "14833",
+        //     MERCHANT_NAME: "Payfast Merchant",
+        //     TOKEN: access_token,
+        //     BASKET_ID: "BASKET123",
+        //     TXNAMT: "1500",
+        //     ORDER_DATE: new Date().toISOString(), // Current timestamp in ISO format
+        //     SUCCESS_URL: "http://localhost/redirection/success.php",
+        //     FAILURE_URL: "http://localhost/redirection/failure.php",
+        //     CHECKOUT_URL: "http://localhost/redirection/checkout.php",
+        //     CUSTOMER_EMAIL_ADDRESS: "someone234@gmail.com",
+        //     CUSTOMER_MOBILE_NO: "03000000090",
+        //     SIGNATURE: "SOME-RANDOM-STRING",
+        //     VERSION: "MERCHANT-CART-0.1",
+        //     TXNDESC: "Item Purchased from Cart",
+        //     PROCCODE: "00",
+        //     TRAN_TYPE: "ECOMM_PURCHASE",
+        //     STORE_ID: "", // Optional field
+        //     RECURRING_TXN: "TRUE", // Optional field
+        //     MERCHANT_USERAGENT: "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0",
+        //     ITEMS: [
+        //       { SKU: "SAMPLE-SKU-01", NAME: "An Awesome Dress", PRICE: "150", QTY: "2" },
+        //       { SKU: "SAMPLE-SKU-02", NAME: "Ice Cream", PRICE: "45", QTY: "5" }
+        //     ]
+        //   })
+        //   console.log({
+        //     CURRENCY_CODE: "PKR",
+        //     MERCHANT_ID: "14833",
+        //     MERCHANT_NAME: "Payfast Merchant",
+        //     TOKEN: access_token,
+        //     BASKET_ID: "BASKET123",
+        //     TXNAMT: "1500",
+        //     ORDER_DATE: new Date().toISOString(), // Current timestamp in ISO format
+        //     SUCCESS_URL: "http://localhost/redirection/success.php",
+        //     FAILURE_URL: "http://localhost/redirection/failure.php",
+        //     CHECKOUT_URL: "http://localhost/redirection/checkout.php",
+        //     CUSTOMER_EMAIL_ADDRESS: "someone234@gmail.com",
+        //     CUSTOMER_MOBILE_NO: "03000000090",
+        //     SIGNATURE: "SOME-RANDOM-STRING",
+        //     VERSION: "MERCHANT-CART-0.1",
+        //     TXNDESC: "Item Purchased from Cart",
+        //     PROCCODE: "00",
+        //     TRAN_TYPE: "ECOMM_PURCHASE",
+        //     STORE_ID: "", // Optional field
+        //     RECURRING_TXN: "TRUE", // Optional field
+        //     MERCHANT_USERAGENT: "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0",
+        //     ITEMS: [
+        //       { SKU: "SAMPLE-SKU-01", NAME: "An Awesome Dress", PRICE: "150", QTY: "2" },
+        //       { SKU: "SAMPLE-SKU-02", NAME: "Ice Cream", PRICE: "45", QTY: "5" }
+        //     ]
+        //   })
         // mutation.mutate(values);
     };
 
@@ -317,7 +317,7 @@ export const CollectInformation = () => {
     }
 
     return (
-        <form id='PayFast_payment_form' method='post' action="https://ipguat.apps.net.pk/Ecommerce/api/Transaction/PostTransaction">
+        <form onSubmit={form.onSubmit(handleSubmit)}>
             <CheckoutContent>
                 <Button
                     component={Link}
